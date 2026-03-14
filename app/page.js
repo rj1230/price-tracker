@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { TrendingDown, Shield, Bell, Rabbit, LogIn } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { TrendingDown, Shield, Bell, Rabbit } from "lucide-react";
 import AddProductForm from "@/components/AddProductform";
 import AuthButton from "@/components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
 import { getProducts } from "./actions";
 import ProductCard from "@/components/ProductCard";
+import Link from "next/link";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -58,7 +58,7 @@ export default async function Home() {
       <section className="py-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-700 px-6 py-2 rounded-full text-sm font-medium mb-6">
-            Made with ❤️ by Roadside Coder
+            Smart tracking for smarter shopping. 🛒
           </div>
 
           <h2 className="text-5xl font-bold text-gray-900 mb-4 tracking-tight">
@@ -70,12 +70,10 @@ export default async function Home() {
             prices drop. Save money effortlessly.
           </p>
 
-          {/* Add Product Button*/}
-
+          {/* Add Product Button */}
           <AddProductForm user={user} />
 
           {/* Features */}
-
           {products.length === 0 && (
             <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-16">
               {FEATURES.map(({ icon: Icon, title, description }) => (
@@ -100,10 +98,8 @@ export default async function Home() {
         <section className="max-w-7xl mx-auto px-4 pb-20">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-2xl font-bold text-gray-900">
-              {""}
-              Your Tracked Product
+              Your Tracked Products
             </h3>
-
             <span className="text-sm text-gray-500">
               {products.length} {products.length === 1 ? "product" : "products"}
             </span>
@@ -130,6 +126,88 @@ export default async function Home() {
           </div>
         </section>
       )}
+
+      {/* Footer */}
+      <footer className="border-t border-gray-100 bg-white px-6 py-10">
+        <div className="mx-auto max-w-7xl">
+          {/* Top section */}
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-3">
+            {/* Brand */}
+            <div>
+              <div className="flex items-center gap-2">
+                <Image
+                  src="/deal-drop-logo.png"
+                  alt="Deal Drop Logo"
+                  width={600}
+                  height={200}
+                  className="h-8 w-auto"
+                />
+              </div>
+              <p className="mt-3 max-w-[220px] text-sm leading-relaxed text-gray-500">
+                Watching prices so you don&apos;t have to. Get instant alerts
+                when prices drop.
+              </p>
+            </div>
+
+            {/* Company links */}
+            <div>
+              <p className="mb-3 text-[11px] font-medium uppercase tracking-widest text-gray-400">
+                Company
+              </p>
+              <ul className="flex flex-col gap-2">
+                {[
+                  { label: "About us", href: "/about" },
+                  { label: "Privacy Policy", href: "/privacy" },
+                  { label: "Contact", href: "/contact" },
+                ].map(({ label, href }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      className="text-sm text-gray-500 transition-colors hover:text-gray-900"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Product links */}
+            <div>
+              <p className="mb-3 text-[11px] font-medium uppercase tracking-widest text-gray-400">
+                Product
+              </p>
+              <ul className="flex flex-col gap-2">
+                {[
+                  { label: "How it works", href: "/how-it-works" },
+                  { label: "Price alerts", href: "/alerts" },
+                  { label: "Supported stores", href: "/stores" },
+                ].map(({ label, href }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      className="text-sm text-gray-500 transition-colors hover:text-gray-900"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-gray-100 pt-5 sm:flex-row sm:items-center">
+            <p className="text-xs text-gray-400">
+              © {new Date().getFullYear()} Deal Drop. All rights reserved.
+            </p>
+            <div className="flex items-center gap-1.5 text-xs text-gray-400">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              All systems operational
+            </div>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
